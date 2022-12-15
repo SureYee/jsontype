@@ -460,6 +460,9 @@ func (obj *Object) setAttr(key string, value any) {
 }
 
 func (obj *Object) UnmarshalJSON(b []byte) error {
+	if obj == nil {
+		obj = NewObject()
+	}
 	raw := make(map[string]json.RawMessage)
 	err := json.Unmarshal(b, &raw)
 	obj.raw = raw

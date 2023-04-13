@@ -490,3 +490,9 @@ func NewObject() *Object {
 		attrs:  make(map[string]any),
 	}
 }
+
+func NewObjectFromBytes(b []byte) (*Object, error) {
+	obj := NewObject()
+	err := json.Unmarshal(b, &obj)
+	return obj, err
+}

@@ -149,6 +149,19 @@ func TestGetNumber(t *testing.T) {
 
 }
 
+type OtherObject struct {
+	jsontype.Object
+}
+
+func TestStruct(t *testing.T) {
+	var obj OtherObject
+	err := json.Unmarshal([]byte(jsonObj), &obj)
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(obj)
+}
+
 func init() {
 	err := json.Unmarshal([]byte(jsonObj), &obj)
 	if err != nil {

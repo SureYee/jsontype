@@ -393,6 +393,7 @@ func (obj *Object) GetObjects(key string) ([]*Object, error) {
 		}
 		return nil, err
 	}
+	obj.setAttr(key, values)
 	return values, nil
 }
 

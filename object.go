@@ -496,3 +496,11 @@ func NewObjectFromBytes(b []byte) (*Object, error) {
 	err := json.Unmarshal(b, &obj)
 	return obj, err
 }
+
+func NewObjectFromAny(v any) (*Object, error) {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return NewObjectFromBytes(b)
+}

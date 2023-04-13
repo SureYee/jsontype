@@ -3,12 +3,13 @@ package jsontype_test
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/sureyee/jsontype"
 )
 
-var jsonObj = `{"obj":{"a":"b"}, "int": 10, "num": "10000", "str":"nnn", "arr": [1,2,3], "b": true, "n": null}`
+var jsonObj = `{"obj":{"a":"b", "b": {"b1": "aaa"}}, "int": 10, "num": "10000", "str":"nnn", "arr": [1,2,3], "b": true, "n": null}`
 var obj jsontype.Object
 
 func TestObject(t *testing.T) {
@@ -149,6 +150,13 @@ func TestGetNumber(t *testing.T) {
 
 }
 
+func TestSet(t *testing.T) {
+	o, _ := obj.GetObject("obj")
+	o.Set("c", "c")
+	b, _ := json.Marshal(obj)
+	fmt.Printf("%s\n", b)
+}
+
 type OtherObject struct {
 	jsontype.Object
 }
@@ -156,6 +164,20 @@ type OtherObject struct {
 func TestStruct(t *testing.T) {
 	var obj OtherObject
 	err := json.Unmarshal([]byte(jsonObj), &obj)
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(obj)
+}
+
+func TestStructSet(t *testing.T) {
+	var obj OtherObject
+	err := json.Unmarshal([]byte(jsonObj), &obj)
+	o, _ := obj.GetObject("obj")
+	bo, _ := o.GetObject("b")
+	bo.Set("b2", "newB2")
+	b, _ := json.Marshal(obj)
+	fmt.Printf("%s\n", b)
 	if err != nil {
 		t.Error(err)
 	}
